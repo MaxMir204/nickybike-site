@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NickyBike | Главная</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Локальный шрифт Oddlini -->
+  <link rel="stylesheet" href="css/style.css" />
+   <style>
+    body {
+      font-family: 'Oddlini', sans-serif;
+    }
+    .logo-text {
+      font-family: 'Oddlini', sans-serif;
+      font-weight: 900;
+      font-stretch: extra-expanded;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- =============== HEADER =============== -->
+  <header class="bg-transparent pt-3">
+    <div class="relative mx-4 md:mx-auto w-full max-w-[1400px] rounded-full bg-gray-100 shadow-md overflow-hidden">
+      <div class="flex items-center w-full px-6 lg:px-8 h-16 lg:h-20">
+        <!-- Логотип + надпись -->
+        <div class="flex items-center gap-2 flex-shrink-0 mr-6">
+          <img src="img/logo.png" alt="Логотип NickyBike" class="h-14 sm:h-16 md:h-16 w-auto" />
+          <div class="leading-[1]">
+            <span 
+              class="tracking-tight text-[28px] sm:text-[36px] md:text-[40.37px] leading-[1]" 
+              style="font-family: 'Oddlini', sans-serif; font-weight: 900; font-stretch: extra-expanded;"
+            >
+              NickyBike
+            </span><br />
+            <span class="text-xs sm:text-sm md:text-base text-gray-700 tracking-tight">
+              прокат электровелосипедов
+            </span>
+          </div>
+        </div>
+
+        <!-- Навигация -->
+        <nav id="desktop-nav" class="hidden md:flex flex-grow justify-center gap-10 text-base lg:text-lg font-medium tracking-tight whitespace-nowrap">
+          <a href="#testdrive" class="hover:text-yellow-500 transition-colors">Тест-драйв</a>
+          <a href="#tariffs"    class="hover:text-yellow-500 transition-colors">Стоимость</a>
+          <a href="#buyout"     class="hover:text-yellow-500 transition-colors">Выкуп</a>
+          <a href="#faq"        class="hover:text-yellow-500 transition-colors">Вопросы</a>
+        </nav>
+
+        <!-- CTA + профиль + бургер -->
+        <div class="flex items-center gap-1 flex-shrink-0 ml-6">
+          <button data-form="feedback" class="bg-white hover:bg-gray-200 text-black text-base font-semibold px-6 py-2 rounded-full border border-gray-300 transition-colors whitespace-nowrap tracking-tight">
+            Оставить заявку
+          </button>
+
+          <a href="lk.html" aria-label="Личный кабинет" class="hidden md:flex items-center justify-center h-10 w-10 rounded-full bg-yellow-400 flex-shrink-0">
+            <img src="img/user.png" alt="Профиль" class="h-5 w-5" />
+          </a>
+
+          <button id="menu-btn" class="md:hidden flex items-center justify-center h-10 w-10 rounded-full bg-yellow-400 flex-shrink-0" aria-label="Открыть меню">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 6.75h16.5m-16.5 6.75h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile nav -->
+    <nav id="mobile-nav" class="md:hidden hidden mt-2 mx-4 bg-gray-100 rounded-lg shadow-md px-4 py-3 space-y-2 text-base font-medium tracking-tight">
+      <a href="#testdrive" class="block hover:text-yellow-500">Тест-драйв</a>
+      <a href="#tariffs"    class="block hover:text-yellow-500">Стоимость</a>
+      <a href="#buyout"     class="block hover:text-yellow-500">Выкуп</a>
+      <a href="#faq"        class="block hover:text-yellow-500">Вопросы</a>
+      <button data-form="feedback" class="w-full bg-white hover:bg-gray-200 text-black font-semibold px-4 py-2 rounded-full border border-gray-300">
+        Оставить заявку
+      </button>
+    </nav>
+  </header>
+
+  <!-- ========== КОНТЕНТ ========== -->
+
+  <script src="js/main.js"></script>
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+    menuBtn?.addEventListener('click', () => {
+      mobileNav.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NickyBike | Личный кабинет</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/stylelk.css" />
+</head>
+<body>
+
+  <!-- =================== HEADER =================== -->
+  <header class="lk-header">
+    <div class="container">
+
+      <!-- Логотип -->
+      <div class="logo">
+        <img src="img/logo.png" alt="Логотип NickyBike" />
+        <div class="logo-text">
+          <span class="company-name">NickyBike</span>
+          <span class="company-desc">прокат электровелосипедов</span>
+        </div>
+      </div>
+
+      <!-- Навигация (desktop) -->
+      <nav class="lk-nav">
+        <a href="#">Баланс</a>
+        <a href="#">Оплата</a>
+        <a href="#">Аренда</a>
+        <a href="#">История зачислений</a>
+      </nav>
+
+      <!-- (mobile) -->
+      <div class="lk-actions">
+        <div class="lk-profile">
+          <img src="img/user.png" alt="Профиль" />
+        </div>
+
+        <button class="lk-menu-button" id="menu-toggle" aria-label="Открыть меню">
+          <img src="img/menu.png" alt="Меню" style="height: 40px; width: 40px;" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Выпадающее мобильное меню -->
+    <nav class="mobile-nav" id="mobile-menu">
+      <a href="#">Баланс</a>
+      <a href="#">Оплата</a>
+      <a href="#">Аренда</a>
+      <a href="#">История зачислений</a>
+    </nav>
+  </header>
+
+  <!-- =================== БЛОК «АККАУНТ» =================== -->
+<section class="account-block">
+  <h2 class="account-title">Аккаунт</h2>
+
+  <div class="account-card">
+    <p><span class="label">Номер аккаунта:</span> <span class="value" data-field="account_id">55</span></p>
+    <p><span class="label">ФИО:</span> <span class="value" data-field="full_name">Шумеев Дмитрий Вадимович</span></p>
+    <p><span class="label">Адрес:</span> <span class="value" data-field="address">Обл. Брянская р‑н Красногорский пгт. Красная Гора д. 26</span></p>
+    <p><span class="label">Телефон:</span> <span class="value" data-field="phone">+7 999 999 99 99</span></p>
+    <p><span class="label">Почта:</span> <span class="value" data-field="email">noreply@nb.ru</span></p>
+  </div>
+</section>
+
+<section class="balance-block">
+  <p class="balance-label">
+    Ваш баланс: <span class="balance-value" data-field="balance">0 ₽</span>
+  </p>
+</section>
+
+<section class="payment-block">
+  <h2 class="payment-title">Оплата</h2>
+
+  <div class="payment-methods">
+    <div class="payment-item"><img src="img/tinkoff.png"/></div>
+    <div class="payment-item"><img src="img/mirpay.png"/></div>
+    <div class="payment-item"><img src="img/gpay.png"/></div>
+    <div class="payment-item"><img src="img/cards.png"/></div>
+  </div>
+</section>
+
+
+
+  <!-- Скрипт для меню -->
+  <script>
+    const menuBtn   = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-menu');
+    menuBtn?.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>
