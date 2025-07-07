@@ -2,27 +2,27 @@
 document.addEventListener('DOMContentLoaded', async () => {
   /* профиль ----------------------------------------------------------- */
   try {
-    const profile = await fetchJSON('/api/profile');      // {account_id, full_name, address, phone, email}
+    const profile = await fetchJSON('/api/profile.php');      // {account_id, full_name, address, phone, email}
     if (profile) updateProfile(profile);
   } catch (e) { console.error('profile', e); }
 
   /* баланс ------------------------------------------------------------ */
   try {
-    const { amount } = await fetchJSON('/api/balance');   // {amount: 12345}
+    const { amount } = await fetchJSON('/api/balance.php');   // {amount: 12345}
     if (amount !== undefined) {
-      document.getElementById('balance-amount').textContent = `${amount} ₽`;
+      document.getElementById('balance-value').textContent = `${amount} ₽`;
     }
   } catch (e) { console.error('balance', e); }
 
   /* история начислений ----------------------------------------------- */
   try {
-    const history = await fetchJSON('/api/history');      // [{amount:'+1000 ₽', date:'2024‑07‑26'}, …]
+    const history = await fetchJSON('/api/history.php');      // [{amount:'+1000 ₽', date:'2024‑07‑26'}, …]
     if (history?.length) renderHistory(history);
   } catch (e) { console.error('history', e); }
 
   /* аренды ------------------------------------------------------------ */
   try {
-    const rent = await fetchJSON('/api/rent');            // [{duration:'6 месяцев', tariff:'Месяц', items:['…','…']}, …]
+    const rent = await fetchJSON('/api/rent.php');            // [{duration:'6 месяцев', tariff:'Месяц', items:['…','…']}, …]
     if (rent?.length) renderRent(rent);
   } catch (e) { console.error('rent', e); }
 });
@@ -63,7 +63,7 @@ function renderHistory(arr) {
 
 /* ---------- аренда --------------------------------------------------- */
 function renderRent(list) {
-  const wrap = document.getElementById('rent-container');
+  const wrap = document.getElementById('rent-block');
   wrap.innerHTML = '';
 
   list.forEach(r => {
