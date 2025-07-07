@@ -45,7 +45,7 @@
 
 .company-name {
   font-family: "Bounded", sans-serif;
-  font-size: 38px;
+  font-size: 40.37px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -125,7 +125,7 @@
   }
 
   .company-name {
-    font-size: 20px;
+    font-size: 200px;
   }
 
   .company-desc {
@@ -820,12 +820,12 @@
   gap: 12px;
 }
 
-.company-name {
+.company-name_menu {
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
 }
 
-.company-desc {
+.company-desc_menu {
   font-size: 11px;
 }
 
