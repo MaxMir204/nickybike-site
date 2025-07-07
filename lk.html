@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NickyBike | Личный кабинет</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- NEW -->
+  <script src="https://acq-paymentform-integrationjs.t-static.ru/integration.js" onload="onPaymentIntegrationLoad()" async></script>
+  <script src="js/tbankpay.js"></script>
+  <!-- UP -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/stylelk.css" />
 </head>
@@ -15,7 +19,9 @@
 
       <!-- Логотип -->
       <div class="logo">
-        <img src="img/logo.png" alt="Логотип NickyBike" />
+        <a href="index.html">
+         <img src="img/logo.png" alt="Логотип NickyBike" />
+        </a>
         <div class="logo-text">
           <span class="company-name">NickyBike</span>
           <span class="company-desc">прокат электровелосипедов</span>
@@ -104,18 +110,25 @@
 
 <section class="balance-block">
   <p class="balance-label">
-    Ваш баланс: <span class="balance-value" data-field="balance">0 ₽</span>
+    Ваш баланс: <span id="balance-value" class="balance-value" data-field="balance">0 ₽</span>
   </p>
 </section>
 
 <section class="payment-block">
   <h2 class="payment-title">Оплата</h2>
 
+  <div class="payment-amount">
+    <label for="payment-input-amount">Введите сумму пополнения (в руб.)</label>
+    <input type="number" id="payment-input-amount" value="100" min="1" step="1"><br>
+  </div>
+
   <div class="payment-methods">
-    <div class="payment-item"><img src="img/tinkoff.png"/></div>
+    <div class="payment-item" id="tinkoff-payment-item"><img src="img/tinkoff.png"/></div>
     <div class="payment-item"><img src="img/mirpay.png"/></div>
     <div class="payment-item"><img src="img/gpay.png"/></div>
     <div class="payment-item"><img src="img/cards.png"/></div>
+  </div> 
+  <div id="tinkoff-iframe-container">
   </div>
 </section>
 
@@ -130,7 +143,7 @@
 </section>
 
 <!-- ===== АРЕНДА ===== -->
-<section class="rent-block">
+<section id="rent-block" class="rent-block">
   <h2 class="rent-title">Аренда</h2>
   <div class="rent-columns" id="rent-columns">
   </div>
@@ -211,7 +224,117 @@
   closeBtn?.addEventListener('click', () => {
     overlay.classList.remove('active');
   });
+  // JavaScript для загрузки данных профиля аккаунта и проверки авторизации!
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchProfileData();
+    fetchBalanceData();
+    fetchHistoryData();
+    fetchRentData();
+  });
+  // Функция для загрузки данных профиля!
+  function fetchProfileData() {
+    fetch('profile.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          window.location.href = 'regin.html'; // !-ПЕРЕНАПРАВЛЕНИЕ НЕАВТОРИЗОВАННЫХ!
+        } else {
+          document.querySelector('[data-field="account_id"]').textContent = data.account_id || 'N/A';
+          document.querySelector('[data-field="full_name"]').textContent = data.full_name || 'Не указано';
+          document.querySelector('[data-field="address"]').textContent = data.address || 'Не указан';
+          document.querySelector('[data-field="phone"]').textContent = data.phone || 'Не указан';
+          document.querySelector('[data-field="email"]').textContent = data.email || 'Не указан';
+        }
+      })
+  }
+  // Функция для загрузки данных баланса!
+  function fetchBalanceData() {
+    fetch('balance.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+            document.getElementById('balance-value').textContent = `0 ₽`;
+            console.error('Ошибка загрузки баланса:', data.error);
+        } else {
+            document.getElementById('balance-value').textContent = `${data.amount} ₽`;
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка при загрузке баланса:', error);
+        document.getElementById('balance-value').textContent = '0 ₽ (Ошибка загрузки)';
+      });
+  }
+  // Функция для загрузки истории зачислений!
+  function fetchHistoryData() {
+    fetch('history.php')
+      .then(response => response.json())
+      .then(data => {
+        const historyLeft = document.getElementById('history-left');
+        const historyRight = document.getElementById('history-right');
+        historyLeft.innerHTML = '';
+        historyRight.innerHTML = '';
+
+        if (data.error) {
+            historyLeft.innerHTML = `<li class="history-item error">${data.error}</li>`;
+            return;
+        }
+        
+        if (data.length === 0) {
+            historyLeft.innerHTML = `<li class="history-item">История не найдена</li>`;
+            return;
+        }
+
+        data.forEach((item, index) => {
+          const li = document.createElement('li');
+          li.className = 'history-item';
+          li.innerHTML = `<span>${item.amount}</span> <span>${item.date}</span>`;
+          if (index % 2 === 0) {
+            historyLeft.appendChild(li);
+          } else {
+            historyRight.appendChild(li);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Ошибка при загрузке истории зачислений:', error);
+        document.getElementById('history-left').innerHTML = `<li class="history-item error">Ошибка загрузки истории</li>`;
+      });
+  }
+  // Функция для загрузки данных аренды!
+  function fetchRentData() {
+    fetch('rent.php')
+      .then(response => response.json())
+      .then(data => {
+        const rentColumns = document.getElementById('rent-columns');
+        rentColumns.innerHTML = '';
+
+        if (data.error) {
+            rentColumns.innerHTML = `<p class="error-message">${data.error}</p>`;
+            return;
+        }
+
+        if (data.length === 0) {
+            rentColumns.innerHTML = `<p class="no-data">Текущей аренды не найдено.</p>`;
+            return;
+        }
+
+        data.forEach(group => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'rent-group';
+            groupDiv.innerHTML = `
+                <p class="rent-duration">${group.duration}</p>
+                <p class="rent-tariff">${group.tariff}₽</p>
+                <ul class="rent-items">
+                    ${group.items.map(item => `<li>${item[0]}</li>`).join('')}
+                </ul>
+            `;
+            rentColumns.appendChild(groupDiv);
+        });
+      })
+      .catch(error => {
+        console.error('Ошибка при загрузке данных аренды:', error);
+        document.getElementById('rent-columns').innerHTML = `<p class="error-message">Ошибка загрузки данных аренды.</p>`;
+      });
+  }
 </script>
-
-
 </html>
